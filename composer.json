@@ -1,0 +1,22 @@
+{
+    "name":         "mikemeier/easy-auth-bundle",
+    "description":  "Easy auth service",
+    "keywords":     ["mikemeier", "auth"],
+    "type":         "symfony-bundle",
+    "license":      "MIT",
+    "authors": [
+        {
+            "name":     "Mike Meier",
+            "email":    "mike.meier@ibrows.ch"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "friendsofsymfony/user-bundle": "*"
+    },
+    "autoload": {
+        "psr-0": { "mikemeier\\EasyAuthBundle": "" }
+    },
+    "target-dir": "mikemeier/EasyAuthBundle",
+    "minimum-stability": "dev"
+}
