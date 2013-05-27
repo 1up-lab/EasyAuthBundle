@@ -56,7 +56,6 @@ class EasyAuth implements EasyAuthInterface
         $this->securityContext = $securityContext;
         $this->formFactory = $formFactory;
         $this->setInformation();
-        $this->removeInformation();
     }
 
     /**
@@ -126,13 +125,6 @@ class EasyAuth implements EasyAuthInterface
         }
 
         return $loginForm;
-    }
-
-    protected function removeInformation()
-    {
-        $session = $this->request->getSession();
-        $session->remove(SecurityContextInterface::LAST_USERNAME);
-        $session->remove(SecurityContextInterface::AUTHENTICATION_ERROR);
     }
 
     protected function setInformation()
