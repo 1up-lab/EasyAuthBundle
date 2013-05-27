@@ -4,6 +4,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
         <parameter key="mikemeier_easyauth.logininformation.class">mikemeier\EasyAuthBundle\Auth\EasyAuth</parameter>
+        <parameter key="mikemeier_easyauth.easyauth.twig.class">mikemeier\EasyAuthBundle\Twig\TwigExtension</parameter>
     </parameters>
     <services>
         <service id="mikemeier.easyauth" class="%mikemeier_easyauth.logininformation.class%" scope="request">
@@ -11,6 +12,10 @@
             <argument type="service" id="form.csrf_provider" />
             <argument type="service" id="security.context" />
             <argument type="service" id="form.factory" />
+        </service>
+        <service id="mikemeier.easyauth.twig.extension" class="%mikemeier_easyauth.easyauth.twig.class%">
+            <argument type="service" id="mikemeier.easyauth" strict="false" />
+            <tag name="twig.extension" />
         </service>
     </services>
 </container>
