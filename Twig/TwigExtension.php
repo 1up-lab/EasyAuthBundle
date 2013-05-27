@@ -2,21 +2,22 @@
 
 namespace mikemeier\EasyAuthBundle\Twig;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use mikemeier\EasyAuthBundle\Auth\EasyAuthInterface;
 
 class TwigExtension extends \Twig_Extension
 {
     /**
-     * @var EasyAuthInterface
+     * @var ContainerInterface
      */
-    protected $easyAuth;
+    protected $container;
 
     /**
-     * @param EasyAuthInterface $easyAuth
+     * @param ContainerInterface $container
      */
-    public function __construct(EasyAuthInterface $easyAuth)
+    public function __construct(ContainerInterface $container)
     {
-        $this->easyAuth = $easyAuth;
+        $this->container = $container;
     }
 
     /**
@@ -33,7 +34,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function getEasyAuth()
     {
-        return $this->easyAuth;
+        return $this->container->get('mikemeier.easyauth');
     }
 
     /**
