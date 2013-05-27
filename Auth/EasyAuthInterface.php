@@ -37,4 +37,9 @@ interface EasyAuthInterface
      * @return FormInterface
      */
     public function getLoginForm($failurePath = 'login', $targetPath = 'index', FormTypeInterface $loginType = null);
+
+    /**
+     * @return EasyAuthInterface
+     */
+    public function removeInformation();
 }

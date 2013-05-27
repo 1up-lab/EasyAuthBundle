@@ -127,6 +127,17 @@ class EasyAuth implements EasyAuthInterface
         return $loginForm;
     }
 
+    /**
+     * @return EasyAuth
+     */
+    public function removeInformation()
+    {
+        $session = $this->request->getSession();
+        $session->remove(SecurityContextInterface::LAST_USERNAME);
+        $session->remove(SecurityContextInterface::AUTHENTICATION_ERROR);
+        return $this;
+    }
+
     protected function setInformation()
     {
         $request = $this->request;
