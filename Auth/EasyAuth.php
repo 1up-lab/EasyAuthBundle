@@ -108,19 +108,24 @@ class EasyAuth implements EasyAuthInterface
      * @param string $failurePath
      * @param string $targetPath
      * @param FormTypeInterface $loginType
+     * @param array $data
+     * @param array $options
      * @return FormInterface
      */
-    public function getLoginForm($failurePath = 'login', $targetPath = 'index', FormTypeInterface $loginType = null)
+    public function getLoginForm($failurePath = 'login', $targetPath = 'index', FormTypeInterface $loginType = null, array $data = array(), array $options = array())
     {
-        $loginForm = $this->createForm($loginType?:new LoginType(), array(
+        $defaultData = array(
             '_csrf_token' => $this->getCsrfToken(),
             '_username' => $this->getLastUsername(),
             '_target_path' => $this->request->getSession()->get('_security.main.target_path', $targetPath),
             '_failure_path' => $failurePath
-        ));
+        );
 
-        $authError = $this->getAuthenticationError();
-        if($authError){
+        $data = array_merge($defaultData, $data);
+
+        $loginForm = $this->createForm($loginType?:new LoginType(), $data, $options);
+
+        if($authError = $this->getAuthenticationError()){
             $loginForm->addError(new FormError($authError));
         }
 
