@@ -16,6 +16,7 @@ class LoginType extends AbstractType
             ->add('_username')
             ->add('_password', 'password')
             ->add('_remember_me', 'checkbox', array('required' => false))
+            ->add('login', 'submit')
             ->add('_failure_path', 'hidden')
             ->add('_target_path', 'hidden')
             ->add('_csrf_token', 'hidden')
