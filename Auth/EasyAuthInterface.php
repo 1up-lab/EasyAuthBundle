@@ -34,9 +34,11 @@ interface EasyAuthInterface
      * @param string $failurePath
      * @param string $targetPath
      * @param FormTypeInterface $loginType
+     * @param array $data
+     * @param array $options
      * @return FormInterface
      */
-    public function getLoginForm($failurePath = 'login', $targetPath = 'index', FormTypeInterface $loginType = null);
+    public function getLoginForm($failurePath = 'login', $targetPath = 'index', FormTypeInterface $loginType = null, array $data = array(), array $options = array());
 
     /**
      * @return EasyAuthInterface
