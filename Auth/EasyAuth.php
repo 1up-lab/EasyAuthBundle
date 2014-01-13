@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class EasyAuth implements EasyAuthInterface
 {
@@ -20,7 +22,7 @@ class EasyAuth implements EasyAuthInterface
     protected $request;
 
     /**
-     * @var CsrfProviderInterface
+     * @var CsrfTokenManagerInterface
      */
     protected $csrfProvider;
 
@@ -40,21 +42,29 @@ class EasyAuth implements EasyAuthInterface
     protected $formFactory;
 
     /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    /**
      * @param Request $request
-     * @param CsrfProviderInterface $csrfProvider
+     * @param CsrfTokenManagerInterface $csrfProvider
      * @param SecurityContextInterface $securityContext
      * @param FormFactoryInterface $formFactory
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         Request $request,
-        CsrfProviderInterface $csrfProvider,
+        CsrfTokenManagerInterface $csrfProvider,
         SecurityContextInterface $securityContext,
-        FormFactoryInterface $formFactory
+        FormFactoryInterface $formFactory,
+        TranslatorInterface $translator
     ){
         $this->request = $request;
         $this->csrfProvicer = $csrfProvider;
         $this->securityContext = $securityContext;
         $this->formFactory = $formFactory;
+        $this->translator = $translator;
         $this->setInformation();
     }
 
@@ -79,7 +89,7 @@ class EasyAuth implements EasyAuthInterface
      */
     public function getCsrfToken()
     {
-        return $this->csrfProvicer->generateCsrfToken('authenticate');
+        return $this->csrfProvicer->getToken('authenticate');
     }
 
     /**
@@ -87,15 +97,15 @@ class EasyAuth implements EasyAuthInterface
      */
     public function getUser()
     {
-        if (null === $token = $this->securityContext->getToken()) {
+        if(null === $token = $this->securityContext->getToken()){
             return null;
         }
 
-        if (!is_object($user = $token->getUser())) {
+        if(!is_object($user = $token->getUser())){
             return null;
         }
 
-        return $user;
+        return $user instanceof UserInterface ? $user : null;
     }
 
     public function logout()
@@ -119,9 +129,8 @@ class EasyAuth implements EasyAuthInterface
             '_failure_path' => $failurePath
         ));
 
-        $authError = $this->getAuthenticationError();
-        if($authError){
-            $loginForm->addError(new FormError($authError));
+        if($authError = $this->getAuthenticationError()){
+            $loginForm->addError(new FormError($this->translator->trans($authError)));
         }
 
         return $loginForm;
@@ -146,9 +155,9 @@ class EasyAuth implements EasyAuthInterface
         $key = SecurityContextInterface::AUTHENTICATION_ERROR;
         $error = null;
 
-        if ($request->attributes->has($key)) {
+        if($request->attributes->has($key)){
             $error = $request->attributes->get($key);
-        } elseif ($session->has($key)) {
+        }elseif($session->has($key)){
             $error = $session->get($key);
         }
 
