@@ -12,7 +12,6 @@ use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class EasyAuth implements EasyAuthInterface
 {
@@ -22,7 +21,7 @@ class EasyAuth implements EasyAuthInterface
     protected $request;
 
     /**
-     * @var CsrfTokenManagerInterface
+     * @var CsrfProviderInterface
      */
     protected $csrfProvider;
 
@@ -48,14 +47,14 @@ class EasyAuth implements EasyAuthInterface
 
     /**
      * @param Request $request
-     * @param CsrfTokenManagerInterface $csrfProvider
+     * @param CsrfProviderInterface $csrfProvider
      * @param SecurityContextInterface $securityContext
      * @param FormFactoryInterface $formFactory
      * @param TranslatorInterface $translator
      */
     public function __construct(
         Request $request,
-        CsrfTokenManagerInterface $csrfProvider,
+        CsrfProviderInterface $csrfProvider,
         SecurityContextInterface $securityContext,
         FormFactoryInterface $formFactory,
         TranslatorInterface $translator
@@ -89,7 +88,7 @@ class EasyAuth implements EasyAuthInterface
      */
     public function getCsrfToken()
     {
-        return $this->csrfProvicer->getToken('authenticate');
+        return $this->csrfProvicer->generateCsrfToken('authenticate');
     }
 
     /**
