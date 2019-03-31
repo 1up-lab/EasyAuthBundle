@@ -7,7 +7,7 @@
         <parameter key="mikemeier_easyauth.easyauth.twig.class">mikemeier\EasyAuthBundle\Twig\TwigExtension</parameter>
     </parameters>
     <services>
-        <service id="mikemeier.easyauth" class="%mikemeier_easyauth.logininformation.class%" scope="request">
+        <service id="mikemeier.easyauth" class="%mikemeier_easyauth.logininformation.class%">
             <argument type="service" id="request" />
             <argument type="service" id="form.csrf_provider" />
             <argument type="service" id="security.context" />

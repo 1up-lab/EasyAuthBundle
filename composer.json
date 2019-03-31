@@ -17,6 +17,5 @@
     "autoload": {
         "psr-0": { "mikemeier\\EasyAuthBundle": "" }
     },
-    "target-dir": "mikemeier/EasyAuthBundle",
-    "minimum-stability": "dev"
+    "target-dir": "mikemeier/EasyAuthBundle"
 }
