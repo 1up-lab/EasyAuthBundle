@@ -8,11 +8,11 @@
     </parameters>
     <services>
         <service id="mikemeier.easyauth" class="%mikemeier_easyauth.logininformation.class%">
-            <argument type="service" id="request" />
-            <argument type="service" id="form.csrf_provider" />
-            <argument type="service" id="security.context" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="security.csrf.token_manager" />
+            <argument type="service" id="security.token_storage" />
             <argument type="service" id="form.factory" />
-            <argument type="service" id="translator" />
+            <argument type="service" id="translator.default" />
         </service>
         <service id="mikemeier.easyauth.twig.extension" class="%mikemeier_easyauth.easyauth.twig.class%">
             <argument type="service" id="service_container" />
